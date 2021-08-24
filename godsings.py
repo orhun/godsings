@@ -45,6 +45,10 @@ def index():
 
 @app.route('/<seed>', methods=['GET'])
 def custom_seed(seed):
+    try:
+        seed = int(seed)
+    except:
+        pass
     words, song, seed = generateMusic(seed=seed)
     return render_template('layouts/index.html',
                            words=words,
