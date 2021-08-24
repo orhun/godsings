@@ -5,16 +5,16 @@ import time
 import requests
 import os
 
-def generateMusic():
-    seed = 0
+def generateMusic(seed=0):
     godsaid = "I'm down"
     try:
         response = requests.get('https://godsays.xyz')
         if response.status_code == 200:
             godsaid = str(response.content, 'utf-8')
-            for word in godsaid.split(" "):
-                for char in word:
-                    seed += ord(char)
+            if seed == 0:
+                for word in godsaid.split(" "):
+                    for char in word:
+                        seed += ord(char)
     except:
         print("god is down")
 
@@ -38,6 +38,14 @@ app._static_folder = os.path.abspath("templates/static/")
 @app.route('/', methods=['GET'])
 def index():
     words, song, seed = generateMusic()
+    return render_template('layouts/index.html',
+                           words=words,
+                           song=song,
+                           seed=seed)
+
+@app.route('/<seed>', methods=['GET'])
+def custom_seed(seed):
+    words, song, seed = generateMusic(seed=seed)
     return render_template('layouts/index.html',
                            words=words,
                            song=song,
