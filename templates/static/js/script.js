@@ -14,10 +14,14 @@ function sing(song, words) {
 
   (function printWord(i) {
     setTimeout(function () {
-      if (word_list[i]) {
+      if (word_list[word_count - i]) {
         let color = "#" + (((1 << 24) * Math.random()) | 0).toString(16);
         $("#words").append(
-          "<span style='color:" + color + "'>" + word_list[i] + "</span> "
+          "<span style='color:" +
+            color +
+            "'>" +
+            word_list[word_count - i] +
+            "</span> "
         );
       }
       if (--i) printWord(i);
